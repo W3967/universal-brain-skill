@@ -23,6 +23,14 @@
 
 一句话：**云端跑全套，本地走低档，聊天窗口也能接。** 五档就是为了这个——环境越弱，档位越低，但不断线。
 
+## 它是给谁的
+
+给个人智能体，不是给团队。
+
+整个方案绕着“一个人”转：记忆、偏好、边界全是单人的；分级按“这个人愿不愿意给任意接入方”定；写者也只有一个。团队要的是多人共享、多人写，还要成员之间的权限和审计——这些这里都没有。
+
+它解决的是“一个人在多个模型之间来回切，记忆断线”这个问题。真要进团队，办法是复制，一人一个大脑，不是共用一个。
+
 ---
 
 ## 它包含什么
@@ -189,6 +197,14 @@ Only three jobs in this skill need ongoing compute: daily sync, snapshot generat
 - **A plain chat window**: paste import tier. No filesystem needed — copy and paste is enough, just fully manual.
 
 In short: **the cloud runs the full loop, local apps take a lower tier, and a chat window can still connect.** That is what the five tiers are for — the weaker the environment, the lower the tier, but the line never breaks.
+
+## Who it's for
+
+Personal agents, not teams.
+
+The whole design revolves around one person: memory, preferences, and boundaries are all that person's; levels are set by what that person is willing to share with any accessor; and there is only one writer. Teams need multi-person sharing and writing, plus permissions and audit between members — none of that is here.
+
+It solves one problem: one person switching between models, with memory breaking at every switch. If it ever goes to teams, the way is replication — one brain per person, not one brain shared.
 
 ---
 
