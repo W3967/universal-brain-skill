@@ -11,6 +11,18 @@
 
 **这个项目反过来做：只把大脑这一侧定成稳定的标准。** 谁想接就照着接，规则不为任何一方单独改。
 
+## 它在哪儿跑得最好
+
+这个 skill 里真正需要持续算力的活儿只有三件：每日同步、快照生成、L1 准入检查。它们都要一个能定时醒来、有 Python、能碰 GitHub 的地方。
+
+- **有云端算力的应用（推荐）**：主写者 / 直连只读档。同步、检查、快照全自动走，手机只管读结果。
+
+- **纯本地应用（比如手机 App）**：本地副本 / 文件导入档。手机系统会杀后台、没有常驻定时任务，同步只能手动，跑 `sync.py` 也得找台电脑。能接，但新鲜度差一截。
+
+- **纯聊天窗口**：粘贴导入档。连文件系统都不需要，复制粘贴就能接，只是全手动。
+
+一句话：**云端跑全套，本地走低档，聊天窗口也能接。** 五档就是为了这个——环境越弱，档位越低，但不断线。
+
 ---
 
 ## 它包含什么
@@ -164,6 +176,18 @@ Anyone who uses several models has the same problem: every time you switch model
 The usual approach is to build a separate integration for each vendor — it only gets messier, and every new model means changing the structure again.
 
 **This project does the opposite: it fixes only the brain side as a stable standard.** Anyone who wants to connect follows the standard; the rules are never changed for one party alone.
+
+## Where it runs best
+
+Only three jobs in this skill need ongoing compute: daily sync, snapshot generation, and the L1 admission check. All three need a place that wakes up on schedule, has Python, and can reach GitHub.
+
+- **Apps with cloud compute (recommended)**: main writer / direct read tiers. Sync, checks, and snapshots all run automatically; the phone just reads the result.
+
+- **Local-only apps (e.g. a phone app)**: local copy / file import tiers. Phones kill background work and have no persistent scheduler, so sync is manual, and running `sync.py` needs a computer. It works, but freshness drops a notch.
+
+- **A plain chat window**: paste import tier. No filesystem needed — copy and paste is enough, just fully manual.
+
+In short: **the cloud runs the full loop, local apps take a lower tier, and a chat window can still connect.** That is what the five tiers are for — the weaker the environment, the lower the tier, but the line never breaks.
 
 ---
 
