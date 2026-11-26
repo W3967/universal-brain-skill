@@ -1,4 +1,5 @@
 # Universal Brain
+[![check](https://github.com/W3967/universal-brain-skill/actions/workflows/check.yml/badge.svg)](https://github.com/W3967/universal-brain-skill/actions/workflows/check.yml)
 
 > 一套供应商中立的个人记忆接口标准。私有仓库是唯一事实源，各家 AI 按同一套规矩来读。
 
