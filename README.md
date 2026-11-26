@@ -54,6 +54,7 @@
 ### 2. 按能力分档，不按名字分档
 
 五个档位：主写者 / 直连只读 / 本地副本 / 文件导入 / 粘贴导入。
+主写者由你指定一个，且只有一个——通常是你最常用的那个模型。
 
 档位描述"这个接入方能做到什么"，不描述"它是哪家产品"。明天出一家新模型，先测能力、再入档。
 
@@ -220,6 +221,7 @@ A keyword list can block secrets and ID numbers. It cannot block combinations th
 ### 2. Tiers by capability, not by name
 
 Five tiers: main writer / direct read / local copy / file import / paste import.
+You designate one main writer, and only one — usually the model you use most.
 
 A tier describes "what this accessor can do", not "which product it is". When a new model appears tomorrow, test its capability first, then file it into a tier.
 
