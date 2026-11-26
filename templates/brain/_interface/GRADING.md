@@ -86,7 +86,7 @@ L3 采用**枚举式**定义，不用排除法：
 ```yaml
 ---
 level: L1
-owner: main-writer
+owner: main-writer  # 占位：换成主写者的名字
 updated: 2026-01-01
 source: manual
 tags: []

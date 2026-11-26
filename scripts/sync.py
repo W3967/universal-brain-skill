@@ -261,7 +261,7 @@ def main() -> int:
         print("以下文件缺少 owner 头信息（写入归属）：", file=sys.stderr)
         for p in no_owner:
             print(f"  {p}", file=sys.stderr)
-        print("补法：在 frontmatter 加 owner: main-writer（默认主写者），或指定其他接入方。", file=sys.stderr)
+        print("补法：在 frontmatter 加 owner: 主写者的名字，或指定其他接入方的名字。", file=sys.stderr)
         print("\n未写入任何文件。", file=sys.stderr)
         return 1
 
