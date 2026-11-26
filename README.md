@@ -67,9 +67,15 @@
 ## 快速开始
 
 ```bash
-git clone <this-repo>
-cp -r templates/brain/* <your-private-repo>/
+git clone https://github.com/W3967/universal-brain-skill.git
+cp -r universal-brain-skill/templates/brain/* <your-private-repo>/
+cd <your-private-repo>
+
+# 去掉模板后缀，让它们成为真正的文件
+find . -name '*.md.template' -exec sh -c 'mv "$1" "${1%.template}"' _ {} \;
 ```
+
+> `templates/brain/` 里的文件都带 `.template` 后缀，是为了防止有人在开源仓里直接填真实数据。**复制到自己的私有仓库后必须去掉后缀**，否则 `sync.py` 找不到它们，第 0 级读取也会落空。
 
 然后：
 
@@ -215,9 +221,15 @@ Two hand-written numbers that disagree in the same document will make the reader
 ## Quick start
 
 ```bash
-git clone <this-repo>
-cp -r templates/brain/* <your-private-repo>/
+git clone https://github.com/W3967/universal-brain-skill.git
+cp -r universal-brain-skill/templates/brain/* <your-private-repo>/
+cd <your-private-repo>
+
+# drop the template suffix so they become real files
+find . -name '*.md.template' -exec sh -c 'mv "$1" "${1%.template}"' _ {} \;
 ```
+
+> Files under `templates/brain/` all carry a `.template` suffix so nobody accidentally fills real data into the open-source repo. **You must drop the suffix after copying** — otherwise `sync.py` won't find them and the level-0 read finds nothing.
 
 Then:
 
