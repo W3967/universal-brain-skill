@@ -29,7 +29,7 @@
 
 给一个人，和他的一支 agent 队伍——不是给一群人。
 
-整个方案绕着“一个人”转：记忆、偏好、边界全是单人的；分级按“这个人愿不愿意给任意接入方”定；写者也只有一个。团队要的是多人共享、多人写，还要成员之间的权限和审计——这些这里都没有。
+整个方案绕着“一个人”转：记忆、偏好、边界全是单人的；分级按“这个人愿不愿意给任意接入方”定；每块仍只有一个写者。团队要的是多人共享、多人写，还要成员之间的权限和审计——这些这里都没有。
 
 它解决的是“一个人在多个模型之间来回切，记忆断线”这个问题。真要进团队，办法是复制，一人一个大脑，不是共用一个。
 
@@ -64,7 +64,7 @@
 ### 2. 按能力分档，不按名字分档
 
 五个档位：主写者 / 直连只读 / 本地副本 / 文件导入 / 粘贴导入。
-主写者由你指定一个，且只有一个——通常是你最常用的那个模型。
+主写者是默认 owner，通常是你最常用的那个模型；指定文件可以分给其他接入方，每块仍只有一个写者。
 
 档位描述"这个接入方能做到什么"，不描述"它是哪家产品"。明天出一家新模型，先测能力、再入档。
 
@@ -206,7 +206,7 @@ In short: **the cloud runs the full loop, local apps take a lower tier, and a ch
 
 For one person, and their team of agents — not for a group of people.
 
-The whole design revolves around one person: memory, preferences, and boundaries are all that person's; levels are set by what that person is willing to share with any accessor; and there is only one writer. Teams need multi-person sharing and writing, plus permissions and audit between members — none of that is here.
+The whole design revolves around one person: memory, preferences, and boundaries are all that person's; levels are set by what that person is willing to share with any accessor; and each block still has only one writer. Teams need multi-person sharing and writing, plus permissions and audit between members — none of that is here.
 
 It solves one problem: one person switching between models, with memory breaking at every switch. If it ever goes to teams, the way is replication — one brain per person, not one brain shared.
 
@@ -241,7 +241,7 @@ A keyword list can block secrets and ID numbers. It cannot block combinations th
 ### 2. Tiers by capability, not by name
 
 Five tiers: main writer / direct read / local copy / file import / paste import.
-You designate one main writer, and only one — usually the model you use most.
+The main writer is the default owner — usually the model you use most. Specific files can be assigned to other accessors; each block still has only one writer.
 
 A tier describes "what this accessor can do", not "which product it is". When a new model appears tomorrow, test its capability first, then file it into a tier.
 

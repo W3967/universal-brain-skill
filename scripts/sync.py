@@ -14,6 +14,8 @@
     --ban a,b,c        L1 文件额外禁入词
 
 设计原则：fail-closed。任何一项检查不通过，不写任何文件，退出码 1。
+
+检查还要求每个文件声明 owner（写入归属），缺失直接失败；index.json 每条记入 owner。
 """
 
 from __future__ import annotations
@@ -93,6 +95,7 @@ def collect(root: Path):
                 {
                     "path": rel,
                     "level": meta.get("level", "?"),
+                    "owner": meta.get("owner", ""),
                     "updated": meta.get("updated", ""),
                     "source": meta.get("source", ""),
                     "summary": meta.get("summary") or summary_of(body),
@@ -197,7 +200,7 @@ def build_snapshot(root: Path, files, out_dir: Path, max_chars: int):
         meta, _ = parse_frontmatter(text)
         (ref_dir / flat).write_text(text, encoding="utf-8")
         ref_entries.append(
-            {"path": f"brain-reference/{flat}", "level": meta.get("level", "?"), "summary": ""}
+            {"path": f"brain-reference/{flat}", "level": meta.get("level", "?"), "owner": meta.get("owner", ""), "summary": ""}
         )
 
     manifest = {
@@ -252,6 +255,16 @@ def main() -> int:
         print("\n未写入任何文件。", file=sys.stderr)
         return 1
 
+    # 没有 owner 声明的文件视为问题 —— 归属不明的文件不许进索引
+    no_owner = [f["path"] for f in files if not f["owner"].strip()]
+    if no_owner:
+        print("以下文件缺少 owner 头信息（写入归属）：", file=sys.stderr)
+        for p in no_owner:
+            print(f"  {p}", file=sys.stderr)
+        print("补法：在 frontmatter 加 owner: main-writer（默认主写者），或指定其他接入方。", file=sys.stderr)
+        print("\n未写入任何文件。", file=sys.stderr)
+        return 1
+
     problems = check_l1(root, files, [x for x in args.ban.split(",") if x.strip()])
     if problems:
         print("L1 准入拦截 —— 以下内容不该出现在 L1 文件里：", file=sys.stderr)
@@ -261,7 +274,7 @@ def main() -> int:
         return 1
 
     if args.cmd == "check":
-        print(f"检查通过：{len(files)} 个文件，L1 准入无问题。")
+        print(f"检查通过：{len(files)} 个文件，L1 准入与 owner 声明无问题。")
         return 0
 
     if args.cmd == "index":
