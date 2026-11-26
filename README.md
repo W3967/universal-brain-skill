@@ -15,9 +15,9 @@
 
 ## 它在哪儿跑得最好
 
-这个 skill 里真正需要持续算力的活儿只有三件：每日同步、快照生成、L1 准入检查。它们都要一个能定时醒来、有 Python、能碰 GitHub 的地方。
+这个 skill 里真正需要持续算力的活儿只有两件：每日同步、L1 准入检查。它们都要一个能定时醒来、有 Python、能碰 GitHub 的地方。快照不自动生成、不自动投递，需要时由使用者手工组包、手工交付。
 
-- **有云端算力的应用（推荐）**：主写者 / 直连只读档。同步、检查、快照全自动走，手机只管读结果。
+- **有云端算力的应用（推荐）**：主写者 / 直连只读档。同步、检查全自动走，手机只管读结果。
 
 - **纯本地应用（比如手机 App）**：本地副本 / 文件导入档。手机系统会杀后台、没有常驻定时任务，同步只能手动，跑 `sync.py` 也得找台电脑。能接，但新鲜度差一截。
 
@@ -111,7 +111,7 @@ find . -name '*.md.template' -exec sh -c 'mv "$1" "${1%.template}"' _ {} \;
    ```bash
    python sync.py index  --root <你的仓库>   # 重建 index.json
    python sync.py check  --root <你的仓库>   # 只检查，不写文件
-   python sync.py snapshot --out dist        # 生成快照包
+   python sync.py snapshot --out dist        # 手工组包时生成快照包
    ```
 
 5. 按 `_interface/GRADING.md` 定级，按 `_interface/COUNTING.md` 核对数字
@@ -192,9 +192,9 @@ The usual approach is to build a separate integration for each vendor — it onl
 
 ## Where it runs best
 
-Only three jobs in this skill need ongoing compute: daily sync, snapshot generation, and the L1 admission check. All three need a place that wakes up on schedule, has Python, and can reach GitHub.
+Only two jobs in this skill need ongoing compute: daily sync and the L1 admission check. Both need a place that wakes up on schedule, has Python, and can reach GitHub. Snapshots are not generated or delivered automatically; the user assembles and hands them over by hand when needed.
 
-- **Apps with cloud compute (recommended)**: main writer / direct read tiers. Sync, checks, and snapshots all run automatically; the phone just reads the result.
+- **Apps with cloud compute (recommended)**: main writer / direct read tiers. Sync and checks run automatically; the phone just reads the result.
 
 - **Local-only apps (e.g. a phone app)**: local copy / file import tiers. Phones kill background work and have no persistent scheduler, so sync is manual, and running `sync.py` needs a computer. It works, but freshness drops a notch.
 
@@ -288,7 +288,7 @@ Then:
    ```bash
    python sync.py index  --root <your-repo>   # rebuild index.json
    python sync.py check  --root <your-repo>   # check only, writes nothing
-   python sync.py snapshot --out dist        # generate snapshot package
+   python sync.py snapshot --out dist        # generate a snapshot package by hand when needed
    ```
 
 5. Grade by `_interface/GRADING.md`, verify numbers by `_interface/COUNTING.md`
