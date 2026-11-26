@@ -1,0 +1,62 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 按 README 的步骤装配一份大脑
+        run: |
+          mkdir -p /tmp/brain
+          cp -a templates/brain/. /tmp/brain/
+          cd /tmp/brain
+          find . -name '*.md.template' -exec sh -c 'mv "$1" "${1%.template}"' _ {} \;
+          echo "--- 装配结果 ---"
+          find . -type f | sort
+
+      - name: check（L1 准入 / 级别 / 摘要）
+        run: python scripts/sync.py check --root /tmp/brain
+
+      - name: index（重建索引）
+        run: python scripts/sync.py index --root /tmp/brain
+
+      - name: 校验索引非空且摘要齐全
+        run: |
+          python - <<'PY'
+          import json
+          with open('/tmp/brain/index.json', encoding='utf-8') as f:
+              idx = json.load(f)
+          files = idx.get('files', [])
+          assert len(files) >= 5, f'索引只有 {len(files)} 条，模板装配可能没生效'
+          empty = [f['path'] for f in files if not f.get('summary')]
+          assert not empty, f'存在空摘要：{empty}'
+          print(f'索引 {len(files)} 条，摘要齐全')
+          PY
+
+      - name: snapshot（生成快照包）
+        run: python scripts/sync.py snapshot --root /tmp/brain --out /tmp/brain/dist
+
+      - name: 校验快照包结构
+        run: |
+          test -f /tmp/brain/dist/brain-memory.md
+          test -f /tmp/brain/dist/brain-manifest.json
+          test -d /tmp/brain/dist/brain-reference
+          python - <<'PY'
+          import json
+          with open('/tmp/brain/dist/brain-manifest.json', encoding='utf-8') as f:
+              m = json.load(f)
+          for key in ('version', 'generated_at', 'source_commit', 'core_chars', 'files'):
+              assert key in m, f'manifest 缺字段：{key}'
+          assert 0 < m['core_chars'] <= 1200, f"核心字数异常：{m['core_chars']}"
+          print(f"快照包 ok：核心 {m['core_chars']} 字，{len(m['files'])} 个文件")
+          PY
