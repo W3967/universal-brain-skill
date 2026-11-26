@@ -64,7 +64,7 @@
 ### 2. 按能力分档，不按名字分档
 
 五个档位：主写者 / 直连只读 / 本地副本 / 文件导入 / 粘贴导入。
-主写者是默认 owner，通常是你最常用的那个模型；指定文件可以分给其他接入方，每块仍只有一个写者。分出去的块用接入方的名字命名，主写者那块也一样，填自己的名字；模板里的 main-writer 是占位，建大脑时换掉。
+主写者是默认 owner，通常是你最常用的那个模型；指定文件可以分给其他接入方，每块仍只有一个写者。分出去的块用接入方的名字命名，主写者那块也一样，填自己的名字；模板里的 main-writer 是占位，建大脑时换掉。提交信息须带 `[owner]` 标记，如 `[grok-bot] ...`；多个接入方共用一个 GitHub 账号时，作者分不出来，靠标记区分。
 
 档位描述"这个接入方能做到什么"，不描述"它是哪家产品"。明天出一家新模型，先测能力、再入档。
 
@@ -241,7 +241,7 @@ A keyword list can block secrets and ID numbers. It cannot block combinations th
 ### 2. Tiers by capability, not by name
 
 Five tiers: main writer / direct read / local copy / file import / paste import.
-The main writer is the default owner — usually the model you use most. Specific files can be assigned to other accessors; each block still has only one writer. Assigned blocks are named after the accessor, and the main writer's block is named after itself too; main-writer in the templates is a placeholder to replace when you set up your brain.
+The main writer is the default owner — usually the model you use most. Specific files can be assigned to other accessors; each block still has only one writer. Assigned blocks are named after the accessor, and the main writer's block is named after itself too; main-writer in the templates is a placeholder to replace when you set up your brain. Commit messages must carry an `[owner]` tag, e.g. `[grok-bot] ...`; when several accessors share one GitHub account, the author field cannot tell them apart — the tag is the discriminator.
 
 A tier describes "what this accessor can do", not "which product it is". When a new model appears tomorrow, test its capability first, then file it into a tier.
 
