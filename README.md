@@ -1,6 +1,8 @@
 # Universal Brain
 [![check](https://github.com/W3967/universal-brain-skill/actions/workflows/check.yml/badge.svg)](https://github.com/W3967/universal-brain-skill/actions/workflows/check.yml)
 
+**给一个人，和他的一支 agent 队伍。**
+
 > 一套供应商中立的个人记忆接口标准。私有仓库是唯一事实源，各家 AI 按同一套规矩来读。
 
 [English](#english)
@@ -25,7 +27,7 @@
 
 ## 它是给谁的
 
-给个人智能体，不是给团队。
+给一个人，和他的一支 agent 队伍——不是给一群人。
 
 整个方案绕着“一个人”转：记忆、偏好、边界全是单人的；分级按“这个人愿不愿意给任意接入方”定；写者也只有一个。团队要的是多人共享、多人写，还要成员之间的权限和审计——这些这里都没有。
 
@@ -176,6 +178,8 @@ universal-brain/
 
 # English
 
+**For one person, and their team of agents.**
+
 > A vendor-neutral personal memory interface standard. The private repo is the single source of truth; every AI reads by the same rules.
 
 [中文](#universal-brain)
@@ -200,7 +204,7 @@ In short: **the cloud runs the full loop, local apps take a lower tier, and a ch
 
 ## Who it's for
 
-Personal agents, not teams.
+For one person, and their team of agents — not for a group of people.
 
 The whole design revolves around one person: memory, preferences, and boundaries are all that person's; levels are set by what that person is willing to share with any accessor; and there is only one writer. Teams need multi-person sharing and writing, plus permissions and audit between members — none of that is here.
 
