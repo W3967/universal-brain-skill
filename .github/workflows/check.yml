@@ -24,11 +24,11 @@ jobs:
           echo "--- 装配结果 ---"
           find . -type f | sort
 
-      - name: check（L1 准入 / 级别 / 摘要）
-        run: python scripts/sync.py check --root /tmp/brain
-
-      - name: index（重建索引）
+      - name: index（重建索引与接口文件）
         run: python scripts/sync.py index --root /tmp/brain
+
+      - name: check（L1 准入 / 级别 / 摘要 / 索引与接口一致）
+        run: python scripts/sync.py check --root /tmp/brain
 
       - name: 校验索引非空且摘要齐全
         run: |
@@ -57,6 +57,23 @@ jobs:
               m = json.load(f)
           for key in ('version', 'generated_at', 'source_commit', 'core_chars', 'files'):
               assert key in m, f'manifest 缺字段：{key}'
+          assert m['version'] == '3.0', f"manifest 版本异常：{m['version']}"
           assert 0 < m['core_chars'] <= 1200, f"核心字数异常：{m['core_chars']}"
+          core_entry = next(f for f in m['files'] if f['path'] == 'brain-memory.md')
+          assert core_entry['level'] == 'L2', f"核心合并版级别应为 L2：{core_entry['level']}"
+          empty_ref = [f['path'] for f in m['files'] if not f.get('summary')]
+          assert not empty_ref, f'清单存在空摘要：{empty_ref}'
           print(f"快照包 ok：核心 {m['core_chars']} 字，{len(m['files'])} 个文件")
           PY
+
+      - name: 快速开始命令回归（按 README 原样跑）
+        run: |
+          rm -rf /tmp/qs && mkdir -p /tmp/qs
+          cp -a "$GITHUB_WORKSPACE" /tmp/qs/universal-brain-skill
+          mkdir /tmp/qs/mybrain
+          cp -a templates/brain/. /tmp/qs/mybrain/
+          cd /tmp/qs/mybrain
+          find . -name '*.md.template' -exec sh -c 'mv "$1" "${1%.template}"' _ {} \;
+          python3 ../universal-brain-skill/scripts/sync.py index --root .
+          python3 ../universal-brain-skill/scripts/sync.py check --root .
+          python3 ../universal-brain-skill/scripts/sync.py snapshot --root . --out dist
