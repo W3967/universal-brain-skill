@@ -17,7 +17,7 @@
 
 这个 skill 里真正需要持续算力的活儿只有两件：每日同步、L1 准入检查。它们都要一个能定时醒来、有 Python、能碰 GitHub 的地方。快照不自动生成、不自动投递，需要时由使用者手工组包、手工交付。
 
-- **有云端算力的应用（推荐）**：主写者 / 直连只读档。同步、检查全自动走，手机只管读结果。
+- **有云端算力的应用（推荐）**：主写者 / 直连只读档。同步、检查自动跑，推送前由你确认，手机只管读结果。
 
 - **纯本地应用（比如手机 App）**：本地副本 / 文件导入档。手机系统会杀后台、没有常驻定时任务，同步只能手动，跑 `sync.py` 也得找台电脑。能接，但新鲜度差一截。
 
@@ -92,7 +92,7 @@
 
 ```bash
 git clone https://github.com/W3967/universal-brain-skill.git
-cp -r universal-brain-skill/templates/brain/* <your-private-repo>/
+cp -r universal-brain-skill/templates/brain/. <your-private-repo>/
 cd <your-private-repo>
 
 # 去掉模板后缀，让它们成为真正的文件
@@ -109,22 +109,22 @@ find . -name '*.md.template' -exec sh -c 'mv "$1" "${1%.template}"' _ {} \;
 4. 重建索引并检查：
 
    ```bash
-   python sync.py index  --root <你的仓库>   # 重建 index.json
-   python sync.py check  --root <你的仓库>   # 只检查，不写文件
-   python sync.py snapshot --out dist        # 手工组包时生成快照包
+   python ../universal-brain-skill/scripts/sync.py index --root .    # 重建索引与接口文件
+   python ../universal-brain-skill/scripts/sync.py check --root .    # 只检查，不写文件
+   python ../universal-brain-skill/scripts/sync.py snapshot --root . --out dist  # 手工组包时生成快照包
    ```
 
 5. 按 `_interface/GRADING.md` 定级，按 `_interface/COUNTING.md` 核对数字
 6. 接第一个模型，按 `_interface/ACCEPTANCE.md` 验收并记账
 
-`sync.py` 是 fail-closed 的：L1 准入、缺级别、缺摘要、核心超字数，任何一项不过都不写文件、退出码 1。
+`sync.py` 是 fail-closed 的：L1 准入、缺级别、缺摘要、缺 owner，任何一项不过都不写文件、退出码 1；核心超字数时 snapshot 命令拒绝出包。
 
 ---
 
 ## 仓库结构
 
 ```
-universal-brain/
+universal-brain-skill/
 ├── SKILL.md                      # 技能说明
 ├── README.md                     # 本文件
 ├── docs/
@@ -132,6 +132,7 @@ universal-brain/
 ├── scripts/
 │   └── sync.py                   # 参考同步工具（标准库，无依赖）
 └── templates/brain/              # 复制到你自己的私有仓库
+    ├── .github/workflows/check.yml  # 归属检查 CI：提交标记须与文件 owner 一致
     ├── MEMORY.md.template        # L1 核心记忆
     ├── profile.md.template       # L2 本人档案
     ├── preferences.md.template   # L2 偏好
@@ -194,7 +195,7 @@ The usual approach is to build a separate integration for each vendor — it onl
 
 Only two jobs in this skill need ongoing compute: daily sync and the L1 admission check. Both need a place that wakes up on schedule, has Python, and can reach GitHub. Snapshots are not generated or delivered automatically; the user assembles and hands them over by hand when needed.
 
-- **Apps with cloud compute (recommended)**: main writer / direct read tiers. Sync and checks run automatically; the phone just reads the result.
+- **Apps with cloud compute (recommended)**: main writer / direct read tiers. Sync and checks run on their own; pushes still need your confirmation, and the phone just reads the result.
 
 - **Local-only apps (e.g. a phone app)**: local copy / file import tiers. Phones kill background work and have no persistent scheduler, so sync is manual, and running `sync.py` needs a computer. It works, but freshness drops a notch.
 
@@ -269,7 +270,7 @@ Two hand-written numbers that disagree in the same document will make the reader
 
 ```bash
 git clone https://github.com/W3967/universal-brain-skill.git
-cp -r universal-brain-skill/templates/brain/* <your-private-repo>/
+cp -r universal-brain-skill/templates/brain/. <your-private-repo>/
 cd <your-private-repo>
 
 # drop the template suffix so they become real files
@@ -286,22 +287,22 @@ Then:
 4. Rebuild the index and check:
 
    ```bash
-   python sync.py index  --root <your-repo>   # rebuild index.json
-   python sync.py check  --root <your-repo>   # check only, writes nothing
-   python sync.py snapshot --out dist        # generate a snapshot package by hand when needed
+   python ../universal-brain-skill/scripts/sync.py index --root .    # rebuild the index and interface files
+   python ../universal-brain-skill/scripts/sync.py check --root .    # check only, writes nothing
+   python ../universal-brain-skill/scripts/sync.py snapshot --root . --out dist  # generate a snapshot package by hand when needed
    ```
 
 5. Grade by `_interface/GRADING.md`, verify numbers by `_interface/COUNTING.md`
 6. Connect your first model, verify it against `_interface/ACCEPTANCE.md`, and record the result
 
-`sync.py` is fail-closed: L1 admission, missing level, missing summary, core over the character limit — if any check fails, it writes nothing and exits 1.
+`sync.py` is fail-closed: L1 admission, missing level, missing summary, or missing owner — if any check fails, it writes nothing and exits 1; a core over the character limit blocks snapshot generation.
 
 ---
 
 ## Repository structure
 
 ```
-universal-brain/
+universal-brain-skill/
 ├── SKILL.md                      # skill description
 ├── README.md                     # this file
 ├── docs/
@@ -309,6 +310,7 @@ universal-brain/
 ├── scripts/
 │   └── sync.py                   # reference sync tool (stdlib only, no dependencies)
 └── templates/brain/              # copy into your own private repo
+    ├── .github/workflows/check.yml  # ownership-check CI: commit tags must match file owners
     ├── MEMORY.md.template        # L1 core memory
     ├── profile.md.template       # L2 personal profile
     ├── preferences.md.template   # L2 preferences
