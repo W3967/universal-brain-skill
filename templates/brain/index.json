@@ -1,6 +1,87 @@
 {
   "schema": "universal-brain/index/v1",
-  "generated_at": "1970-01-01T00:00:00Z",
-  "note": "由同步工具重建，禁止手工维护。首次运行 sync.py 之前，此文件为空壳。",
-  "files": []
+  "generated_at": "2026-11-27T01:51:31Z",
+  "note": "由同步工具重建，禁止手工维护。",
+  "files": [
+    {
+      "path": "MEMORY.md",
+      "level": "L1",
+      "owner": "main-writer",
+      "updated": "2026-01-01",
+      "source": "manual",
+      "summary": "长期记忆核心版，可发给任意接入方的事实"
+    },
+    {
+      "path": "README.md",
+      "level": "L1",
+      "owner": "main-writer",
+      "updated": "2026-01-01",
+      "source": "manual",
+      "summary": "接口版本：v3.0。相对 v2.0 的改动：核心文件分区所有权——每个文件一个 owner（默认主写者），主写者任归属协调者；其余规矩不变。"
+    },
+    {
+      "path": "answer-key.md",
+      "level": "L2",
+      "owner": "main-writer",
+      "updated": "2026-01-01",
+      "source": "manual",
+      "summary": "验收答案键，仅供判分，不外发"
+    },
+    {
+      "path": "chats-opt-in/README.md",
+      "level": "L2",
+      "owner": "main-writer",
+      "updated": "2026-01-01",
+      "source": "manual",
+      "summary": "只放用户逐条选定的聊天记录。默认空。"
+    },
+    {
+      "path": "decisions/proposals.md",
+      "level": "L2",
+      "owner": "main-writer",
+      "updated": "2026-01-01",
+      "source": "manual",
+      "summary": "跨接入方提议记录，按编号跟踪 pending / accepted / rejected"
+    },
+    {
+      "path": "encrypted/README.md",
+      "level": "L3",
+      "owner": "main-writer",
+      "updated": "2026-01-01",
+      "source": "manual",
+      "summary": "预留目录，当前为空。"
+    },
+    {
+      "path": "people/INDEX.md",
+      "level": "L2",
+      "owner": "main-writer",
+      "updated": "2026-01-01",
+      "source": "manual",
+      "summary": "家人与常联系人索引，一人一页，只写已确认事实"
+    },
+    {
+      "path": "preferences.md",
+      "level": "L2",
+      "owner": "main-writer",
+      "updated": "2026-01-01",
+      "source": "manual",
+      "summary": "喜好、禁忌与已确认的长期约定"
+    },
+    {
+      "path": "profile.md",
+      "level": "L2",
+      "owner": "main-writer",
+      "updated": "2026-01-01",
+      "source": "manual",
+      "summary": "本人档案：称呼、身份、说话与回复偏好"
+    },
+    {
+      "path": "tasks.md",
+      "level": "L2",
+      "owner": "main-writer",
+      "updated": "2026-01-01",
+      "source": "manual",
+      "summary": "跨接入方共享的任务与承诺清单，按状态跟踪"
+    }
+  ]
 }

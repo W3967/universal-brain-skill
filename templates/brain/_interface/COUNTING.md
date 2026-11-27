@@ -12,18 +12,16 @@ source: live repo state
 
 统计范围：除 `.git`、`dist/`（快照输出）、`__pycache__` 外的全部文件。
 
-> 下表数字待生成：跑 `python scripts/sync.py index` 后由工具填入。
-
 | 口径 | 数量 | 构成 |
 | --- | --- | --- |
-| 磁盘文件总数 | 待生成 | 内容文件＋接口文件＋工作流文件＋.gitignore＋.gitkeep |
-| 内容文件 | 待生成 | 内容 Markdown N 个＋index.json 1 个 |
-| 接口文件 | 待生成 | _interface/GRADING.md、ACCEPTANCE.md、COUNTING.md；不计入索引 |
-| 工作流文件 | 待生成 | .github/workflows/ 下的 workflow 文件；仓库 CI，不计入索引 |
-| 索引收录 | 待生成 | 内容 Markdown 除去模板 projects/_template.md；index.json 不自索引 |
-| 核心记忆字数 | 待生成 | 同步工具计数（去空白） |
+| 磁盘文件总数 | 18 | 内容文件 12＋接口文件 3＋工作流文件 1＋.gitignore 0＋.gitkeep 2 |
+| 内容文件 | 12 | 内容 Markdown 11 个＋index.json 1 个 |
+| 接口文件 | 3 | _interface/GRADING.md、ACCEPTANCE.md、COUNTING.md；不计入索引 |
+| 工作流文件 | 1 | .github/workflows/check.yml；仓库 CI，不计入索引 |
+| 索引收录 | 10 | 11 个内容 Markdown 除去模板 projects/_template.md；index.json 不自索引 |
+| 核心记忆字数 | 235 字 | 同步工具计数（去空白） |
 | 恢复演练（历史） | — | 尚未记录演练；演练后按当次清单记 |
-| 恢复演练（下次预期） | 待生成 | 内容文件＋接口文件＋工作流文件＋.gitignore |
+| 恢复演练（下次预期） | 16 | 内容文件 12 个＋接口文件 3 个＋工作流文件 1 个＋.gitignore 0 个 |
 
 ## 为什么要这张表
 

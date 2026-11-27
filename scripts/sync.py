@@ -51,7 +51,17 @@ DEFAULT_BANS = [
     (r"BEGIN[ A-Z]*PRIVATE KEY", "私钥块"),
     (r"\b\d{17}[\dXx]\b", "疑似身份证号"),
     (r"\b\d{16,19}\b", "疑似长串卡号/账号"),
+    (r"(?i)(api[_-]?key|apikey)\s*[:=]\s*\S{8,}", "疑似 API 密钥"),
+    (r"ghp_[A-Za-z0-9]{20,}", "疑似 GitHub 令牌"),
+    (r"sk-[A-Za-z0-9]{20,}", "疑似 OpenAI 密钥"),
+    (r"(?i)password\s*[:=]\s*\S+", "疑似密码字段"),
+    (r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.(com|cn|net|qq\.com|gmail\.com)", "疑似邮箱地址"),
+    (r"(?<!\d)1[3-9]\d{9}(?!\d)", "疑似手机号"),
 ]
+
+# 摘要校验：最短长度与占位符（与方案文档第 3 节一致）。
+MIN_SUMMARY_LEN = 8
+SUMMARY_PLACEHOLDERS = ("待填", "待补充", "待写", "暂无", "占位", "todo", "tbd", "xxx", "lorem")
 
 # 分级策略列（不随仓库状态变）：(匹配, 进仓, 进快照, 授权)。
 # 匹配可以是精确路径、glob（如 projects/*.md）或目录前缀（如 chats-opt-in/）。
@@ -63,6 +73,7 @@ GRADING_POLICY = [
     ("preferences.md", "是", "是", "随核心合并，需逐次确认"),
     ("answer-key.md", "是", "否", "不外发"),
     ("tasks.md", "是", "否", "外发需授权"),
+    ("decisions/*.md", "是", "否", "不外发"),
     ("projects/*.md", "是", "是", "否"),
     ("people/INDEX.md", "是", "是", "随包需授权"),
     ("chats-opt-in/", "仅逐条选定", "否", "每条单独定"),
@@ -487,6 +498,7 @@ def build_grading(root: Path):
         "> 能写进 L1 的，只能是可发给任意接入方的事实。不确定的，降一档。",
         "",
         "同步工具应对 L1 文件做准入拦截，命中高敏类别直接拦下。但要注意工具的边界：它能拦可枚举的模式，拦不住组合才成立的识别性信息。",
+        "写 L2 之前按方案文档第 8 节「L2 人工复核点」逐项自查 —— 工具没报警不等于可以推。",
         "",
         "### L2 的两种形态",
         "",
@@ -655,13 +667,21 @@ def main() -> int:
         print("\n未写入任何文件。", file=sys.stderr)
         return 1
 
-    # 没有摘要的文件拒绝入索引 —— 索引里留空摘要等于没有索引
-    no_summary = [f["path"] for f in files if not f["summary"].strip()]
-    if no_summary:
-        print("以下文件没有可用摘要，拒绝入索引：", file=sys.stderr)
-        for p in no_summary:
-            print(f"  {p}", file=sys.stderr)
-        print("补法：在 frontmatter 加 summary: 字段，或正文首段写一句概述。", file=sys.stderr)
+    # 摘要须可用：非空、≥ 8 字、不是占位符 —— 索引里留空摘要等于没有索引
+    bad_summary = []
+    for f in files:
+        s = f["summary"].strip()
+        if not s:
+            bad_summary.append((f["path"], "无摘要"))
+        elif len(s) < MIN_SUMMARY_LEN:
+            bad_summary.append((f["path"], f"摘要仅 {len(s)} 字"))
+        elif any(p in s.lower() for p in SUMMARY_PLACEHOLDERS):
+            bad_summary.append((f["path"], "摘要是占位符"))
+    if bad_summary:
+        print("以下文件摘要不合格，拒绝入索引：", file=sys.stderr)
+        for p, why in bad_summary:
+            print(f"  {p}（{why}）", file=sys.stderr)
+        print("补法：在 frontmatter 加 summary: 字段（≥ 8 字，不写待填 / TODO 之类占位符），或正文首段写一句概述。", file=sys.stderr)
         print("\n未写入任何文件。", file=sys.stderr)
         return 1
 
